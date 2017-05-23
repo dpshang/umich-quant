@@ -59,9 +59,15 @@ DerivedData/
 *.xcbkptlist
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 MultiFactorMonteCarlo/MultiFactorMonteCarlo.xcodeproj/project.pbxproj
 
 *.pbxproj
+=======
+*.h5
+
+*.csv
+>>>>>>> pbenson/master
 =======
 *.h5
 

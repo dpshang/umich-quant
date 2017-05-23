@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 import math
+<<<<<<< HEAD
+=======
+import collections
+>>>>>>> pbenson/master
 
 DATE_TIME_COLUMN = 'date'
 CLOSE_COLUMN = 'close'
@@ -8,8 +12,13 @@ RETURN_COLUMN = 'return'
 WEIGHTED_RETURN_COLUMN = 'weightedReturn'
 
 
+<<<<<<< HEAD
 def datetime64FromYYYYMMDD(x):
     return pd.to_datetime(str(x), format='%Y%m%d')
+=======
+def datetime64FromYYYYMMDD(s):
+    return pd.to_datetime(str(s), format='%Y%m%d')
+>>>>>>> pbenson/master
 
 
 def yyyymmdd(dt):
@@ -30,6 +39,12 @@ class MarketFactor:
         return 'MarketFactor(' + self.ticker + ',' + yyyymmdd(self.data.index[0]) \
                + ' to ' + yyyymmdd(self.data.index[-1]) + ',' + str(len(self.data)) + ' days)'
 
+<<<<<<< HEAD
+=======
+    def mostRecentPrice(self):
+        return self.data[CLOSE_COLUMN][-1]
+
+>>>>>>> pbenson/master
 
 class MarketFactorVector:
     # The weighted subset of historical observations of a market used for Monte Carlo simulation
@@ -55,6 +70,12 @@ class MarketUniverse:
     def __init__(self):
         self.tickerToMarketFactorDict = {}
 
+<<<<<<< HEAD
+=======
+    def __repr__(self):
+        return 'MarketUniverse(' + str(self.tickerToMarketFactorDict) + ')'
+
+>>>>>>> pbenson/master
     def initializeFromFileNames(self, dataFileNames):
         fileCount = 0
         columnNames = [DATE_TIME_COLUMN, 'time', 'open', 'high', 'low', CLOSE_COLUMN, 'volume']
@@ -74,3 +95,46 @@ class MarketUniverse:
 
     def initializeFromTickers(self, tickers):
         self.initializeFromFileNames(['table_' + ticker + '.csv' for ticker in tickers])
+<<<<<<< HEAD
+=======
+
+    def marketForTickers(self, tickers, startDate, endDate, decay):
+        tickerToMarketFactorDict = collections.OrderedDict()
+        for ticker in tickers:
+            tickerToMarketFactorDict[ticker] = self.tickerToMarketFactorDict[ticker]
+        return Market(tickerToMarketFactorDict, startDate, endDate, decay)
+
+    def marketForAllTickers(self, startDate, endDate, decay):
+        return self.marketForTickers(self.tickerToMarketFactorDict.keys(), startDate, endDate, decay)
+
+class Market:
+    def __init__(self, tickerToMarketFactorDict, startDate, endDate, decay):
+        self.tickerToMarketFactorVectorDict = collections.OrderedDict()
+        self.numDays = None
+        self.currentPrices = []
+        for ticker, marketFactor in tickerToMarketFactorDict.items():
+            mfv = MarketFactorVector(marketFactor, startDate, endDate, decay)
+            if not self.numDays:
+                self.numDays = len(mfv.weightedReturns)
+            self.tickerToMarketFactorVectorDict[ticker] = mfv
+            self.currentPrices.append(marketFactor.mostRecentPrice())
+
+    def simulated_returns_dict(self):
+        noise = np.random.normal(loc=0, scale=1.0, size=self.numDays)
+        tickerToReturnDict = {}
+        for ticker, mfv in self.tickerToMarketFactorVectorDict.items():
+            tickerToReturnDict[ticker] = np.dot(mfv.weightedReturns, noise)
+        return tickerToReturnDict
+
+    def simulated_returns_list(self):
+        return self.simulated_returns_dict().values()
+
+    def simulated_prices_list(self):
+        return np.multiply(self.currentPrices, np.exp(self.simulated_returns_list()))
+
+    def tickers(self):
+        return self.tickerToMarketFactorVectorDict.keys()
+
+    def __repr__(self):
+        return 'Market(' + str(self.tickerToMarketFactorVectorDict) + ')'
+>>>>>>> pbenson/master
