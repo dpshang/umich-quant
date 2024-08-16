@@ -1,10 +1,7 @@
 import numpy as np
 import pandas as pd
 import math
-<<<<<<< HEAD
-=======
 import collections
->>>>>>> pbenson/master
 
 DATE_TIME_COLUMN = 'date'
 CLOSE_COLUMN = 'close'
@@ -12,13 +9,8 @@ RETURN_COLUMN = 'return'
 WEIGHTED_RETURN_COLUMN = 'weightedReturn'
 
 
-<<<<<<< HEAD
-def datetime64FromYYYYMMDD(x):
-    return pd.to_datetime(str(x), format='%Y%m%d')
-=======
 def datetime64FromYYYYMMDD(s):
     return pd.to_datetime(str(s), format='%Y%m%d')
->>>>>>> pbenson/master
 
 
 def yyyymmdd(dt):
@@ -39,12 +31,9 @@ class MarketFactor:
         return 'MarketFactor(' + self.ticker + ',' + yyyymmdd(self.data.index[0]) \
                + ' to ' + yyyymmdd(self.data.index[-1]) + ',' + str(len(self.data)) + ' days)'
 
-<<<<<<< HEAD
-=======
     def mostRecentPrice(self):
         return self.data[CLOSE_COLUMN][-1]
 
->>>>>>> pbenson/master
 
 class MarketFactorVector:
     # The weighted subset of historical observations of a market used for Monte Carlo simulation
@@ -70,12 +59,9 @@ class MarketUniverse:
     def __init__(self):
         self.tickerToMarketFactorDict = {}
 
-<<<<<<< HEAD
-=======
     def __repr__(self):
         return 'MarketUniverse(' + str(self.tickerToMarketFactorDict) + ')'
 
->>>>>>> pbenson/master
     def initializeFromFileNames(self, dataFileNames):
         fileCount = 0
         columnNames = [DATE_TIME_COLUMN, 'time', 'open', 'high', 'low', CLOSE_COLUMN, 'volume']
@@ -95,8 +81,6 @@ class MarketUniverse:
 
     def initializeFromTickers(self, tickers):
         self.initializeFromFileNames(['table_' + ticker + '.csv' for ticker in tickers])
-<<<<<<< HEAD
-=======
 
     def marketForTickers(self, tickers, startDate, endDate, decay):
         tickerToMarketFactorDict = collections.OrderedDict()
@@ -137,4 +121,3 @@ class Market:
 
     def __repr__(self):
         return 'Market(' + str(self.tickerToMarketFactorVectorDict) + ')'
->>>>>>> pbenson/master

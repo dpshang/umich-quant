@@ -1,10 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 import pandas as pd
-<<<<<<< HEAD
-=======
 import csv
->>>>>>> pbenson/master
 
 import mfmc as mc
 
@@ -13,8 +10,6 @@ if __name__ == '__main__':
     tickers = ['AAPL', 'NKE', 'GOOG']
     marketUniverse.initializeFromTickers(tickers)
 
-<<<<<<< HEAD
-=======
     # create a Market
     startDate = mc.datetime64FromYYYYMMDD('20120101')
     endDate = mc.datetime64FromYYYYMMDD('20121231')
@@ -28,9 +23,8 @@ if __name__ == '__main__':
         numSims = 10000
         for i in range(1, numSims+1):
             if i % 1000 == 0:
-                print 'completed simulation #'+str(i)
+                print('completed simulation #'+str(i))
             sim = market.simulated_prices_list()
             simWriter.writerow(['{0:.2f}'.format(price) for price in sim])
 
->>>>>>> pbenson/master
-    print "end of program"
+    print("end of program")
